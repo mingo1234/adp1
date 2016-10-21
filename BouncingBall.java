@@ -1,6 +1,8 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -60,6 +62,21 @@ public class BouncingBall extends JFrame {
 				mouseY = e.getY();
 			}
 		});
+	this.addKeyListener(new KeyAdapter() {
+		@Override
+		public void keyPressed(KeyEvent e) {
+			if (e.getKeyCode()==KeyEvent.VK_UP){
+				rightPaddleY-=10;
+			}else if (e.getKeyCode()==KeyEvent.VK_DOWN){
+				rightPaddleY+=10;
+			}else if (e.getKeyCode()==KeyEvent.VK_W){
+				leftPaddleY-=10;
+			}else if (e.getKeyCode()==KeyEvent.VK_S){
+				leftPaddleY+=10;
+			}
+}		
+		
+	});
 
 		ActionListener updateTask = new ActionListener() {
 
@@ -79,7 +96,7 @@ public class BouncingBall extends JFrame {
 					changeBallColor();
 				}
 				//Set fixed paddles position
-				leftPaddleY = (getHeight()-40)/2 - leftPaddleHeight/2;
+				//leftPaddleY = (getHeight()-40)/2 - leftPaddleHeight/2;
 				rightPaddleY = (getHeight()-40)/2 - rightPaddleHeight/2;
 				repaint();
 			}
@@ -112,11 +129,14 @@ public class BouncingBall extends JFrame {
 	//Nested Class (Class bên trong class khác)
 	private class DrawingCanvas extends JPanel {
 
-		@Override
 		protected void paintComponent(Graphics g) {
 			long start = System.nanoTime();
 			super.paintComponent(g);
+
 			setBackground(new Color(175,215,230));
+
+			setBackground(Color.BLUE);
+
 			//Ball
 			g.setColor(ballColor);
 			g.fillOval(x, y, size, size);
